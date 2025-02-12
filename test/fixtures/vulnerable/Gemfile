@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+
+gem "bundler-audit"
+gem "actionpack", "6.0.0"  # 既知の脆弱性を含むバージョン

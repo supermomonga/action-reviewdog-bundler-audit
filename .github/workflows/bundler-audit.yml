@@ -1,0 +1,14 @@
+name: bundler-audit
+on: [pull_request]
+jobs:
+  bundler-audit:
+    name: runner / bundler-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: bundler-audit
+        uses: supermomonga/action-reviewdog-bundler-audit@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # level: info
+          # reporter: github-pr-check
