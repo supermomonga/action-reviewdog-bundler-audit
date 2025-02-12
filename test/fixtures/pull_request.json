@@ -1,0 +1,20 @@
+{
+  "number": 1,
+  "head": {
+    "sha": "dummy_sha",
+    "ref": "feature/test",
+    "repo": {
+      "full_name": "supermomonga/action-reviewdog-bundler-audit"
+    }
+  },
+  "base": {
+    "sha": "dummy_base_sha",
+    "ref": "main",
+    "repo": {
+      "full_name": "supermomonga/action-reviewdog-bundler-audit"
+    }
+  },
+  "repository": {
+    "full_name": "supermomonga/action-reviewdog-bundler-audit"
+  }
+}
