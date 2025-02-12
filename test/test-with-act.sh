@@ -2,37 +2,25 @@
 
 set -e
 
-# 現在のディレクトリをリポジトリのルートに移動
 cd "$(dirname "$0")/.."
 
-# テスト用の一時ディレクトリを作成
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
+# Pull Requestのコンテキストを設定
+export GITHUB_EVENT_NAME="pull_request"
+export GITHUB_EVENT_PATH="$PWD/test/fixtures/pull_request.json"
+export GITHUB_REPOSITORY="supermomonga/action-reviewdog-bundler-audit"
+export GITHUB_SHA="dummy_sha"
+export GITHUB_REF="refs/pull/1/merge"
+export GITHUB_API_URL="https://api.github.com"
+export GITHUB_SERVER_URL="https://github.com"
+export GITHUB_GRAPHQL_URL="https://api.github.com/graphql"
 
-# テスト用のGemfile.lockを一時ディレクトリにコピー
-cp test/fixtures/vulnerable/Gemfile.lock "$TEMP_DIR/"
-
-# actコマンドの存在確認
-if ! command -v act &> /dev/null; then
-  echo "Error: actコマンドが見つかりません"
-  echo "以下のコマンドでインストールしてください:"
-  echo ""
-  echo "macOSの場合:"
-  echo "  brew install act"
-  echo ""
-  echo "その他の場合は以下を参照してください:"
-  echo "  https://github.com/nektos/act#installation"
-  exit 1
-fi
-
-# actを使用してGitHub Actionをテスト
-echo "=== GitHub Actionのテストを開始します ==="
-echo "テスト1: デフォルト設定でのテスト"
-act pull_request \
-  --artifact-server-path "$TEMP_DIR" \
-  --env GITHUB_TOKEN=dummy_token \
-  --workflows .github/workflows/test.yml \
-  --eventpath test/fixtures/pull_request.json \
-  --container-architecture linux/amd64
+echo "GitHub Action ==="
+echo "1: デフォルト設定でのテスト"
+act -q -j "test-bundler-audit" \
+  -W .github/workflows/test.yml \
+  -e test/fixtures/pull_request.json \
+  --container-architecture linux/amd64 \
+  -s GITHUB_TOKEN="dummy_token" \
+  --artifact-server-path /tmp/artifacts
 
 echo "すべてのテストが成功しました! 🎉"

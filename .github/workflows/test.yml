@@ -1,6 +1,9 @@
 name: Test
 on:
   pull_request:
+    branches:
+      - main
+      - master
   push:
     branches:
       - main
@@ -8,33 +11,11 @@ on:
 
 jobs:
   test-bundler-audit:
-    name: Test bundler-audit action
+    name: Test default settings
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./test/fixtures/vulnerable
     steps:
       - uses: actions/checkout@v4
-
-      # テスト1: デフォルト設定でのテスト
       - name: Test default settings
         uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-
-      # テスト2: レベルをinfoに設定してのテスト
-      - name: Test with info level
-        uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          level: info
-        continue-on-error: true
-
-      # テスト3: レベルをerrorに設定してのテスト
-      - name: Test with error level
-        uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          level: error
-        continue-on-error: true

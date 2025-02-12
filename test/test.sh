@@ -23,10 +23,11 @@ test_output_format() {
 
   # bundler-auditの実行(実際のreviewdog実行は避ける)
   bundle exec bundle-audit check --format json | \
-    jq -r '.results[] | "Gemfile.lock:1:\(.advisory.criticality | if . == null then "UNKNOWN" else . | ascii_upcase end): \(.advisory.title) [\(.advisory.id)]"' > "$OUTPUT_FILE"
+    jq -c '.' | \
+    jq -r '.results[] | "Gemfile.lock:1 \(.advisory.criticality | if . == null then "UNKNOWN" else . | ascii_upcase end) \(.advisory.title) [\(.advisory.id)]"' > "$OUTPUT_FILE"
 
   # 出力フォーマットの検証
-  if grep -qE '^Gemfile\.lock:[0-9]+:(HIGH|MEDIUM|LOW|UNKNOWN):.*\[.*\]$' "$OUTPUT_FILE"; then
+  if grep -qE '^Gemfile\.lock:[0-9]+ (HIGH|MEDIUM|LOW|UNKNOWN).*\[CVE-[0-9]+-[0-9]+\]$' "$OUTPUT_FILE"; then
     echo "✅ 出力フォーマットのテストが成功しました"
   else
     echo "❌ 出力フォーマットのテストが失敗しました"
@@ -50,7 +51,8 @@ test_severity_levels() {
     OUTPUT_FILE="$TEMP_DIR/output_$level.txt"
 
     bundle exec bundle-audit check --format json | \
-      jq -r '.results[] | "Gemfile.lock:1:\(.advisory.criticality | if . == null then "UNKNOWN" else . | ascii_upcase end): \(.advisory.title) [\(.advisory.id)]"' > "$OUTPUT_FILE"
+      jq -c '.' | \
+      jq -r '.results[] | "Gemfile.lock:1 \(.advisory.criticality | if . == null then "UNKNOWN" else . | ascii_upcase end) \(.advisory.title) [\(.advisory.id)]"' > "$OUTPUT_FILE"
 
     if [ -s "$OUTPUT_FILE" ]; then
       echo "✅ レベル '$level' のテストが成功しました"

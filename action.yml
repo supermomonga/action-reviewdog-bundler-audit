@@ -1,5 +1,7 @@
 name: 'Run bundler-audit with reviewdog'
-description: 'Run bundler-audit and report results with reviewdog'
+description: 'Run bundler-audit with reviewdog'
+author: 'supermomonga'
+
 inputs:
   github_token:
     description: 'GITHUB_TOKEN'
@@ -8,11 +10,13 @@ inputs:
     description: 'Report level for reviewdog [info,warning,error]'
     default: 'warning'
   reporter:
-    description: 'Reporter of reviewdog'
+    description: 'Reporter of reviewdog command [github-pr-check,github-pr-review,github-check]'
     default: 'github-pr-check'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
+
 branding:
   icon: 'shield'
   color: 'red'

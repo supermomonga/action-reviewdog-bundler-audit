@@ -1,21 +1,20 @@
 {
-  "pull_request": {
-    "number": 1,
-    "head": {
-      "ref": "test-branch",
-      "sha": "0000000000000000000000000000000000000000"
-    },
-    "base": {
-      "ref": "main",
-      "sha": "0000000000000000000000000000000000000000"
+  "number": 1,
+  "head": {
+    "sha": "dummy_sha",
+    "ref": "feature/test",
+    "repo": {
+      "full_name": "supermomonga/action-reviewdog-bundler-audit"
+    }
+  },
+  "base": {
+    "sha": "dummy_base_sha",
+    "ref": "main",
+    "repo": {
+      "full_name": "supermomonga/action-reviewdog-bundler-audit"
     }
   },
   "repository": {
-    "name": "action-reviewdog-bundler-audit",
-    "full_name": "supermomonga/action-reviewdog-bundler-audit",
-    "owner": {
-      "login": "supermomonga"
-    }
-  },
-  "action": "opened"
+    "full_name": "supermomonga/action-reviewdog-bundler-audit"
+  }
 }
