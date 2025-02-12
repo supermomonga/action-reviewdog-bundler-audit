@@ -12,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: test/fixtures/vulnerable
+        working-directory: ./test/fixtures/vulnerable
     steps:
       - uses: actions/checkout@v4
 
       # テスト1: デフォルト設定でのテスト
       - name: Test default settings
-        uses: ./../../
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
       # テスト2: レベルをinfoに設定してのテスト
       - name: Test with info level
-        uses: ./../../
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           level: info
@@ -33,7 +33,7 @@ jobs:
 
       # テスト3: レベルをerrorに設定してのテスト
       - name: Test with error level
-        uses: ./../../
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           level: error
